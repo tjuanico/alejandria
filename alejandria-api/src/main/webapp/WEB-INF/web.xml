@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="https://jakarta.ee/xml/ns/jakartaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee
+             https://jakarta.ee/xml/ns/jakartaee/web-app_6_0.xsd"
+         version="6.0">
+
+    <display-name>Alejandria API</display-name>
+
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>API Protegida</web-resource-name>
+            <url-pattern>/v1/*</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>ALE_API</role-name>
+        </auth-constraint>
+    </security-constraint>
+
+    <login-config>
+        <auth-method>BEARER_TOKEN</auth-method>
+    </login-config>
+
+    <security-role>
+        <role-name>ALE_API</role-name>
+    </security-role>
+
+</web-app>

@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="jakarta.faces.html"
+      xmlns:f="jakarta.faces.core"
+      xmlns:p="http://primefaces.org/ui"
+      lang="es">
+<h:head>
+    <meta charset="UTF-8"/>
+    <h:outputStylesheet name="css/estilos.css" />
+    <link rel="stylesheet" href="https://unpkg.com/primeflex@latest/primeflex.css"></link>
+    <title>Alejandria RAG - UTAMED</title>
+</h:head>
+<h:body>
+    <div class="container-fluid">
+        <div class="grid cabecera-alejandria">
+            <div class="col-2 m-3">
+                <h:graphicImage name="images/logo-alejandria.png" width="150px" height="150px" alt="Alejandria" styleClass="header-logo-img" />
+            </div>
+            <div class="col-4 m-3">
+                <h1>ALEJANDRIA</h1>
+            </div>
+            <div class="col-4 m-3">
+                <h:graphicImage name="images/logo-utamed.png" width="400px" height="150px"  alt="UTAMED" styleClass="header-logo-img" />
+            </div>
+        </div>
+    </div>
+    <h:form id="documentosForm" enctype="multipart/form-data">
+        <p:growl id="growl" showDetail="true" keepAlive="true"/>
+        <p:toolbar>
+            <p:toolbarGroup>
+                <p:commandButton value="Añadir nuevo documento" icon="pi pi-plus" ajax="true" action="#{indexController.openDocumentoDialog}">
+                    <p:ajax event="dialogReturn" update="tablaDocumentos,growl" listener="#{indexController.updateDocumentosFromModal}" />
+                </p:commandButton>
+            </p:toolbarGroup>
+        </p:toolbar>
+        <div>
+            <p:panel id="panelDocumentos" header="Documentos en Alejandria" footer="" styleClass="padding-top5px" style="width:80%">
+                <p:dataTable id="tablaDocumentos" var="documento" value="#{indexController.documentos}" paginator="true" paginatorPosition="bottom" rows="10"
+                             paginatorTemplate="{FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}" size="small">
+                    <p:column headerText="Id" sortBy="#{documento.idDocumento}" style="width:5%">
+                        <h:outputText value="#{documento.idDocumento}"/>
+                    </p:column>
+                    <p:column headerText="Título" sortBy="#{documento.titulo}" style="width:35%">
+                        <h:outputText value="#{documento.titulo}"/>
+                    </p:column>
+                    <p:column headerText="Fecha" sortBy="#{documento.fechaDocumento}" style="width:10%">
+                        <h:outputText value="#{documento.fechaDocumento}">
+                            <f:convertDateTime type="localDate" pattern="dd/MM/yyyy" />
+                        </h:outputText>
+                    </p:column>
+                    <p:column headerText="Idioma" sortBy="#{documento.idioma}" style="width:10%">
+                        <h:outputText value="#{documento.idioma}"/>
+                    </p:column>
+                    <p:column headerText="Núm. chunks" sortBy="#{documento.numChunks}" style="width:20%">
+                        <h:outputText value="#{documento.numChunks}"/>
+                    </p:column>
+                    <p:column headerText="Usuario" sortBy="#{documento.usuario}" style="width:15%">
+                        <h:outputText value="#{documento.usuario}"/>
+                    </p:column>
+                    <p:column headerText="Opciones" style="width:15%">
+                        <p:button icon="pi pi-file-pdf"
+                                  title="Ver Documento"
+                                  href="#{request.contextPath}/archivos/#{documento.nombreFichero}"
+                                  target="_blank"
+                                  styleClass="ui-button-flat ui-button-info" />
+                        <p:commandButton icon="pi pi-trash"
+                                         update="tablaDocumentos,growl"
+                                         styleClass="ui-button-flat ui-button-info"
+                                         process="@this"
+                                         action="#{indexController.deleteDocumento(documento.idDocumento)}">
+                            <p:confirm header="Eliminar documento indexado" icon="pi pi-exclamation-triangle" message="¿Seguro que quieres eliminar el documento?"/>
+                        </p:commandButton>
+                    </p:column>
+                </p:dataTable>
+            </p:panel>
+        </div>
+        <p:confirmDialog global="true" showEffect="fade" hideEffect="fade" responsive="true" width="450">
+            <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no ui-button-flat" icon="pi pi-times"/>
+            <p:commandButton value="Sí" type="button" styleClass="ui-confirmdialog-yes" icon="pi pi-check"/>
+        </p:confirmDialog>
+    </h:form>
+    <h:form id="busquedaForm">
+        <p:panel id="panelBusqueda" header="Prueba búsqueda RAG" footer="" styleClass="padding-top5px" style="width:80%">
+            <div class="grid">
+                <div class="col-4 m-3">
+                    <p:inputTextarea rows="4" cols="40" value="#{indexController.promptUsuario}"/>
+                </div>
+                <div class="col-1 m-3">
+                    <p:commandButton value="Búsqueda RAG" disableOnAjax="true" action="#{indexController.buscar}" update="tablaResultados" />
+                </div>
+                <div class="col-12 m-3">
+                    <p:dataTable id="tablaResultados" var="fragmento" value="#{indexController.fragmentos}" lazy="false" emptyMessage="No se encontraron resultados" paginator="false">
+                        <p:column headerText="score/similitud (máx. 1.0)" sortBy="#{fragmento.similitud}" style="width:10%">
+                            <h:outputText value="#{fragmento.similitud}"/>
+                        </p:column>
+                        <p:column headerText="texto" sortBy="#{fragmento.chunk}" style="width:90%">
+                            <h:outputText value="#{fragmento.chunk}"/>
+                        </p:column>
+                    </p:dataTable>
+                </div>
+            </div>
+        </p:panel>
+    </h:form>
+    <footer id="footer" class="compact-footer">
+        <div class="footer-alejandria">
+            <div class="container-fluid">
+               Antoni Juanico Soler - TFM - Agente inteligente - UTAMED - Curso 2025/2026 - v1.0.0
+            </div>
+        </div>
+    </footer>
+</h:body>
+</html>

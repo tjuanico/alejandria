@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>es.utamed.alejandria</groupId>
+        <artifactId>alejandria</artifactId>
+        <version>1.0.0</version>
+    </parent>
+
+    <artifactId>alejandria-ear</artifactId>
+    <packaging>ear</packaging>
+    <name>alejandria</name>
+    <description>alejandria ear - vector chunk</description>
+    <properties>
+        <maven.compiler.source>21</maven.compiler.source>
+        <maven.compiler.target>21</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>es.utamed.alejandria</groupId>
+            <artifactId>alejandria-persistence</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>es.utamed.alejandria</groupId>
+            <artifactId>alejandria-ejb</artifactId>
+            <type>ejb</type>
+        </dependency>
+        <dependency>
+            <groupId>es.utamed.alejandria</groupId>
+            <artifactId>alejandria-web</artifactId>
+            <type>war</type>
+        </dependency>
+        <dependency>
+            <groupId>es.utamed.alejandria</groupId>
+            <artifactId>alejandria-api</artifactId>
+            <type>war</type>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <finalName>${project.parent.artifactId}</finalName>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-ear-plugin</artifactId>
+                <configuration>
+                    <generateApplicationXml>true</generateApplicationXml>
+                    <defaultLibBundleDir>lib</defaultLibBundleDir>
+                    <modules>
+                        <ejbModule>
+                            <groupId>es.utamed.alejandria</groupId>
+                            <artifactId>alejandria-ejb</artifactId>
+                            <bundleFileName>alejandria-ejb.jar</bundleFileName>
+                        </ejbModule>
+                        <webModule>
+                            <groupId>es.utamed.alejandria</groupId>
+                            <artifactId>alejandria-web</artifactId>
+                            <contextRoot>/alejandria</contextRoot>
+                            <bundleFileName>alejandria-web.war</bundleFileName>
+                        </webModule>
+                        <webModule>
+                            <groupId>es.utamed.alejandria</groupId>
+                            <artifactId>alejandria-api</artifactId>
+                            <contextRoot>/alejandria-api</contextRoot>
+                            <bundleFileName>alejandria-api.war</bundleFileName>
+                        </webModule>
+                    </modules>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>

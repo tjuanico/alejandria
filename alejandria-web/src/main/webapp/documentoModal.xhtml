@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="jakarta.faces.html"
+      xmlns:f="jakarta.faces.core"
+      xmlns:p="http://primefaces.org/ui"
+      lang="es">
+<h:head>
+    <meta charset="UTF-8"/>
+    <h:outputStylesheet name="css/estilos.css" />
+    <link rel="stylesheet" href="https://unpkg.com/primeflex@latest/primeflex.css"></link>
+    <title>Nuevo documento en Alejandria</title>
+</h:head>
+<h:body>
+    <h:form id="documentoForm" enctype="multipart/form-data">
+        <div class="p-3">
+            <div class="grid ui-fluid">
+                <div class="col-12 md:col-6">
+                    <p:outputLabel for="titulo">Título</p:outputLabel>
+                    <p:inputText id="titulo" value="#{documentoController.titulo}" required="true" maxlength="255" />
+                </div>
+                <div class="col-12 md:col-6">
+                    <p:outputLabel for="idioma">Idioma</p:outputLabel>
+                    <p:selectOneMenu id="idioma" value="#{documentoController.idioma}">
+                        <f:selectItem itemLabel="Selecciona idioma" itemValue=""/>
+                        <f:selectItem itemLabel="Español" itemValue="es"/>
+                        <f:selectItem itemLabel="Catalán" itemValue="ca"/>
+                    </p:selectOneMenu>
+                </div>
+            </div>
+            <div class="grid ui-fluid">
+                <div class="col-12 md:col-6">
+                    <p:outputLabel for="fecha">Fecha</p:outputLabel>
+                    <p:datePicker id="fecha" value="#{documentoController.fechaDocumento}" />
+                </div>
+                <div class="col-12 md:col-6">
+                    <p:outputLabel for="fichero">Fichero</p:outputLabel>
+                    <p:fileUpload id="fichero" label="Seleccionar fichero" chooseButtonTitle="Subir fichero" value="#{documentoController.file}"
+                                  mode="simple" skinSimple="true" accept=".pdf" requiered="true">
+                        <p:validateFile sizeLimit="1000000" fileLimit="1" allowTypes="/(\.|\/)(pdf)$/" contentType="true" />
+                    </p:fileUpload>
+                </div>
+            </div>
+            <div class="grid mt-4">
+                <div class="col-12 flex justify-content-end align-items-center">
+                    <p:commandButton value="Guardar" id="btnGuardar" onclick="PF('bloqueoPantalla').show();"
+                                     icon="pi pi-check"
+                                     action="#{documentoController.addDocumento()}"
+                                     process="@form"
+                                     update="@form"
+                                     styleClass="ui-button-primary mr-2 w-auto h-3rem" />
+
+                    <p:commandButton value="Cancelar"
+                                     icon="pi pi-times"
+                                     immediate="true"
+                                     process="@this"
+                                     action="#{documentoController.closeDialog()}"
+                                     styleClass="ui-button-secondary w-auto h-3rem" />
+                </div>
+            </div>
+            <p:blockUI widgetVar="bloqueoPantalla" block="@form" >
+                <div class="flex flex-column align-items-center p-3">
+                    <i class="pi pi-spin pi-spinner" style="font-size: 3rem; color: var(--primary-color);"></i>
+                    <h:outputText value="Vectorizando documento y generando chunks..." style="margin-top: 1rem; font-weight: bold;" />
+                    <h:outputText value="Por favor, espere. Esto puede tardar unos segundos." style="font-size: 0.9rem; color: #666;" />
+                </div>
+            </p:blockUI>
+        </div>
+    </h:form>
+</h:body>
+</html>

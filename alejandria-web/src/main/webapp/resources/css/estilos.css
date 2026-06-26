@@ -1,0 +1,99 @@
+
+h1, h2, h3 {
+    font-family: "Segoe UI", sans-serif;
+    color: #1A1A1A;
+    font-weight: 700;
+}
+
+h1 {
+    margin: 0 0 20px;
+    padding-block: 20px;
+}
+
+body {
+    background: #F8F9FA;
+    color: #2C3E50;
+    font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    margin: 0;
+    max-width: 100%;
+    overflow-x: hidden;
+    padding: 2px;
+}
+
+a {
+    text-decoration: none;
+    color: #1e8772;
+    transition: color 0.3s ease;
+}
+
+a:hover {
+    color: #145f50;
+    text-decoration: underline;
+}
+
+.card {
+    padding: 2rem;
+    box-shadow: 0 2px 1px -1px rgb(0 0 0 / 20%), 0 1px 1px 0 rgb(0 0 0 / 14%), 0 1px 3px 0 rgb(0 0 0 / 12%);
+    border-radius: 4px;
+    margin-bottom: 2rem;
+    background: white;
+    width: 95%;
+}
+
+.cabecera-alejandria {
+    background-color: #1e8772;
+    height: 200px;
+    margin-bottom: 40px;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+
+}
+
+.cabecera-alejandria h1,
+.cabecera-alejandria h2,
+.cabecera-alejandria p {
+    color: white !important;
+    margin: 5px 0;
+}
+
+.footer-alejandria {
+    background-color: #1e8772;
+    height: 100px;
+    margin-top: 40px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    color: white;
+    text-align: center;
+    padding: 0 20px;
+    box-sizing: border-box;
+
+}
+
+.dialogo-solido {
+    background: white !important;
+    opacity: 1 !important;
+}
+
+
+body .ui-blockui-content {
+    background-color: #ffffff !important;
+    opacity: 1 !important;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2) !important;
+    border: none !important;
+    padding: 2rem !important;
+}
+
+body .ui-blockui {
+    background-color: rgba(0, 0, 0, 0.5) !important;
+}
+
